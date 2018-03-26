@@ -1,0 +1,2 @@
+#!/bin/sh
+route del default dev ppp0

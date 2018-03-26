@@ -1,0 +1,25 @@
+#!/bin/sh
+
+mkdir -p /var/run/xl2tpd ;
+touch /var/run/xl2tpd/l2tp-control ;
+
+service strongswan restart ;
+service xl2tpd restart ;
+
+ipsec up myvpn ;
+
+echo "c myvpn" > /var/run/xl2tpd/l2tp-control ;
+
+# ip route
+sleep 2
+
+DEFAULT_ROUTE=$(ip route show default | awk '/default/ {print $3}')
+PUBLIC_IP=$(curl -s https://4.ifcfg.me/)
+echo $DEFAULT_ROUTE;
+echo $PUBLIC_IP
+route add $VPN_SERVER_IP gw $DEFAULT_ROUTE
+route add $PUBLIC_IP gw $DEFAULT_ROUTE
+
+sleep 5
+route add default dev ppp0
+wget -qO- http://ipv4.icanhazip.com; echo ;

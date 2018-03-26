@@ -1,0 +1,3 @@
+#!/bin/sh
+
+wget -qO- http://ipv4.icanhazip.com; echo
