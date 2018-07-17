@@ -14,7 +14,7 @@ echo "c myvpn" > /var/run/xl2tpd/l2tp-control ;
 sleep 2
 
 DEFAULT_ROUTE=$(ip route show default | awk '/default/ {print $3}')
-PUBLIC_IP=$(curl -s https://4.ifcfg.me/)
+PUBLIC_IP=$(wget -qO- http://ipv4.icanhazip.com; echo ;)
 echo $DEFAULT_ROUTE;
 echo $PUBLIC_IP
 route add $VPN_SERVER_IP gw $DEFAULT_ROUTE
